@@ -166,6 +166,43 @@ kube-system    kube-apiserver-tm-kube-master            1/1     Running   1     
 ### Allow access to the K8s API from the Internet (be careful!!!)
 `az vm open-port -g RG-TM-KubeCluster -n tm-kube-master --port 6443`
 
-# Minikube
+# Minikube on Docker Desktop
 
 ## Installation
+
+### Prerequisites
+
+- Docker Desktop is installed
+
+### Install on Linux
+
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+### Install on macOS
+
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64
+sudo install minikube-darwin-amd64 /usr/local/bin/minikube
+
+### Install on Windows
+
+PowerShell (as Administrator):
+```
+New-Item -Path 'c:\' -Name 'minikube' -ItemType Directory -Force
+Invoke-WebRequest -OutFile 'c:\minikube\minikube.exe' -Uri 'https://github.com/kubernetes/minikube/releases/latest/download/minikube-windows-amd64.exe' -UseBasicParsing
+```
+
+Add minikube to PATH:
+``` 
+$oldPath = [Environment]::GetEnvironmentVariable('Path', [EnvironmentVariableTarget]::Machine)
+if ($oldPath.Split(';') -inotcontains 'C:\minikube'){ `
+  [Environment]::SetEnvironmentVariable('Path', $('{0};C:\minikube' -f $oldPath), [EnvironmentVariableTarget]::Machine) `
+}
+``` 
+## Start the cluster
+
+`minikube start`
+
+## Start and expose the Dashboard
+
+`minikube dashboard`
