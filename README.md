@@ -19,11 +19,11 @@ Example: `az sshkey create --name "mySSHKey" --public-key "@~/.ssh/id_rsa.pub" -
 Example: `az network vnet create -g RG-TM-KubeCluster -n VNET-TM-KubeCluster --address-prefixes 172.0.0.0/16`
 
 ### Create the Master Node VM
-`az vm create -n <vm-name-master> -g <ResourceGroupName> --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name <mySSHKey> --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name <dns-name-for-public-ip-master>`
+`az vm create -n <vm-name-master> -g <ResourceGroupName> --vnet-name <VNET-Name> --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name <mySSHKey> --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name <dns-name-for-public-ip-master>`
 
-Example: `az vm create -n tm-kube-master -g RG-TM-KubeCluster --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name mySSHKey --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name tm-kubeadm-master`
+Example: `az vm create -n tm-kube-master -g RG-TM-KubeCluster --vnet-name VNET-TM-KubeCluster --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name mySSHKey --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name tm-kubeadm-master`
 
 ### Create Worker Node VMs
-`az vm create -n <vm-name-worker-{n}> -g <ResourceGroupName> --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name <mySSHKey> --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name <dns-name-for-public-ip-worker-{n}>
+`az vm create -n <vm-name-worker-{n}> -g <ResourceGroupName> --vnet-name <VNET-Name> --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name <mySSHKey> --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name <dns-name-for-public-ip-worker-{n}>
 
-Example: `az vm create -n tm-kube-worker-1 -g RG-TM-KubeCluster --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name mySSHKey --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name tm-kubeadm-worker-1`
+Example: `az vm create -n tm-kube-worker-1 -g RG-TM-KubeCluster --vnet-name VNET-TM-KubeCluster --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name mySSHKey --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name tm-kubeadm-worker-1`
