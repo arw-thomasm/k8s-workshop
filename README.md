@@ -16,7 +16,7 @@ Example: `az sshkey create --name "mySSHKey" --public-key "@~/.ssh/id_rsa.pub" -
 ### Create a VNET
 `az network vnet create -g <ResourceGroupName> -n <VNET-Name> --address-prefixes <prefix>/16`
 
-Example: `az network vnet create -g RG-TM-KubeCluster -n VNET-TM-KubeCluster --address-prefixes 172.0.0.0/16`
+Example: `az network vnet create -g RG-TM-KubeCluster -n VNET-TM-KubeCluster --address-prefixes 10.0.0.0/16`
 
 ### Create the Master Node VM
 `az vm create -n <vm-name-master> -g <ResourceGroupName> --vnet-name <VNET-Name> --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name <mySSHKey> --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name <dns-name-for-public-ip-master>`
