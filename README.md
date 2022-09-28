@@ -88,12 +88,23 @@ Since Kubernetes manages the swap itself, you first need to disable swap otherwi
 `sudo swapoff -a`
 
 ### Install K8s components
+Update the apt package index and install packages needed to use the K8s repo:
 ```
-sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
-sudo apt install kubeadm
+sudo apt-get install -y apt-transport-https ca-certificates curl
+```
 
+Download the Google signing key
+`sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg`
+
+Add the Kubernetes apt repo:
+`echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list`
+
+Install the K8s components and pin their version:
+```
+sudo apt-get update
+sudo apt install -y kubeadm kubelet kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
 If you get the error message `[ERROR FileContent--proc-sys-net-bridge-bridge-nf-call-iptables]: /proc/sys/net/bridge/bridge-nf-call-iptables does not exist` then enable the kernel module br_netfilter:
@@ -105,7 +116,6 @@ If you get the error message `[ERROR FileContent--proc-sys-net-ipv4-ip_forward]:
 `echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward`
 
 Attention: Do not use `sudo echo 1 >  /proc/sys/net/ipv4/ip_forward` as this does not work, as the redirection of the output is not done as sudo!
-
 
 ## Master Node specific tasks
 
