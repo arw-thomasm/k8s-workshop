@@ -3,42 +3,59 @@
 ## Create infrastructure in Azure
 
 ### Login into Azure
-`az login`
+```
+az login
+```
 
 ### Create Resource Group
-`az group create -n <ResourceGroupName> -l <region>`
+```
+az group create -n <ResourceGroupName> -l <region>
+```
 
 Example: 
-
-`az group create -n RG-TM-KubeCluster -l germanywestcentral`
+```
+az group create -n RG-TM-KubeCluster -l germanywestcentral
+```
 
 ### Upload your SSH Public Key to Azure (used to authenticate SSH later)
-`az sshkey create --name “<ssh-key-name>" --public-key "@<path_to_pub_key>.pub" --resource-group <ResourceGroupName>`
+```
+az sshkey create --name “<ssh-key-name>" --public-key "@<path_to_pub_key>.pub" --resource-group <ResourceGroupName>
+```
 
 Example:
-
-`az sshkey create --name "mySSHKey" --public-key "@~/.ssh/id_rsa.pub" --resource-group RG-TM-KubeCluster`
+```
+az sshkey create --name "mySSHKey" --public-key "@~/.ssh/id_rsa.pub" --resource-group RG-TM-KubeCluster
+```
 
 ### Create a VNET
-`az network vnet create -g <ResourceGroupName> -n <VNET-Name> --address-prefixes <prefix>/16`
+```
+az network vnet create -g <ResourceGroupName> -n <VNET-Name> --address-prefixes <prefix>/16
+```
 
 Example: 
-
-`az network vnet create -g RG-TM-KubeCluster -n VNET-TM-KubeCluster --address-prefixes 172.0.0.0/16`
+```
+az network vnet create -g RG-TM-KubeCluster -n VNET-TM-KubeCluster --address-prefixes 172.0.0.0/16
+```
 
 ### Create the Master Node VM
-`az vm create -n <vm-name-master> -g <ResourceGroupName> --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name <mySSHKey> --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name <dns-name-for-public-ip-master>`
+```
+az vm create -n <vm-name-master> -g <ResourceGroupName> --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name <mySSHKey> --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name <dns-name-for-public-ip-master>
+```
 
 Example: 
-
-`az vm create -n tm-kube-master -g RG-TM-KubeCluster --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name mySSHKey --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name tm-kubeadm-master`
+```
+az vm create -n tm-kube-master -g RG-TM-KubeCluster --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name mySSHKey --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name tm-kubeadm-master
+```
 
 ### Create Worker Node VMs
-`az vm create -n <vm-name-worker-{n}> -g <ResourceGroupName> --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name <mySSHKey> --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name <dns-name-for-public-ip-worker-{n}>
+```
+az vm create -n <vm-name-worker-{n}> -g <ResourceGroupName> --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name <mySSHKey> --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name <dns-name-for-public-ip-worker-{n}>
+```
 
 Example: 
-
-`az vm create -n tm-kube-worker-1 -g RG-TM-KubeCluster --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name mySSHKey --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name tm-kubeadm-worker-1`
+```
+az vm create -n tm-kube-worker-1 -g RG-TM-KubeCluster --image ubuntults --size Standard_DS2_v2 --data-disk-sizes-gb 10 --generate-ssh-keys --ssh-key-name mySSHKey --admin-username azureuser --public-ip-sku Standard --public-ip-address-dns-name tm-kubeadm-worker-1
+```
 
 # Install CRIO
 
@@ -48,8 +65,9 @@ ssh -l azureuser <fqdns VM>
 ```  
 
 Example: 
-
-`ssh -l azureuser tm-kubeadm-worker-2.germanywestcentral.cloudapp.azure.com`
+```
+ssh -l azureuser tm-kubeadm-worker-2.germanywestcentral.cloudapp.azure.com
+```
 
 ### Add Package Repository to apt sources list
 ```
@@ -78,14 +96,18 @@ sudo systemctl enable crio --now
 ```
 
 ### Test if CRI-O is running
-`sudo crictl info`
+```
+sudo crictl info
+```
 
 # Install Kubernetes
 
 Since Kubernetes manages the swap itself, you first need to disable swap otherwise Kubernetes may not run. Disable it and install all three core Kubernetes components (kubeadm, kubelet, and kubectl) on all the nodes using the following commands
 
 ### Turn of swap
-`sudo swapoff -a`
+```
+sudo swapoff -a
+```
 
 ### Install K8s components
 Update the apt package index and install packages needed to use the K8s repo:
@@ -95,10 +117,14 @@ sudo apt-get install -y apt-transport-https ca-certificates curl
 ```
 
 Download the Google signing key
-`sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg`
+```
+sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+```
 
 Add the Kubernetes apt repo:
-`echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list`
+```
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+```
 
 Install the K8s components and pin their version:
 ```
@@ -109,18 +135,24 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 If you get the error message `[ERROR FileContent--proc-sys-net-bridge-bridge-nf-call-iptables]: /proc/sys/net/bridge/bridge-nf-call-iptables does not exist` then enable the kernel module br_netfilter:
 
-`sudo modprobe br_netfilter`
+```
+sudo modprobe br_netfilter
+```
 
 If you get the error message `[ERROR FileContent--proc-sys-net-ipv4-ip_forward]: /proc/sys/net/ipv4/ip_forward contents are not set to 1` then enable ip forwarding by echoing 1 into the file stated in the error message:
 
-`echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward`
+```
+echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
+```
 
 Attention: Do not use `sudo echo 1 >  /proc/sys/net/ipv4/ip_forward` as this does not work, as the redirection of the output is not done as sudo!
 
 ## Master Node specific tasks
 
 ### Initialize Master
-`sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-cert-extra-sans=<fqdns Master-VM>`
+```
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-cert-extra-sans=<fqdns Master-VM>
+```
 
 Important: If you are using flannel as network provider, then do not change the pod-network-cidr parameter!
 
@@ -159,7 +191,9 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 ### Install a pod network (flannel)
 
-`kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml`
+```
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
 
 ## Worker Nodes specific tasks
 
@@ -167,11 +201,15 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 Use the command of the output of `kubeadm init` to join the cluster
 
-`sudo kubeadm join <ip>:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>`
+```
+sudo kubeadm join <ip>:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
+```
 
 ### Check all pods on the cluster
 
-`kubectl get pods --all-namespaces -o wide`
+```
+kubectl get pods --all-namespaces -o wide
+```
 
 Beispielausgabe
 ```
@@ -186,7 +224,9 @@ kube-system    kube-apiserver-tm-kube-master            1/1     Running   1     
 ```
 
 ### Allow access to the K8s API from the Internet (be careful!!!)
-`az vm open-port -g RG-TM-KubeCluster -n tm-kube-master --port 6443`
+```
+az vm open-port -g RG-TM-KubeCluster -n tm-kube-master --port 6443
+```
 
 # Minikube on Docker Desktop
 
@@ -198,13 +238,17 @@ kube-system    kube-apiserver-tm-kube-master            1/1     Running   1     
 
 ### Install on Linux
 
+```
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
+```
 
 ### Install on macOS
 
+```
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64
 sudo install minikube-darwin-amd64 /usr/local/bin/minikube
+```
 
 ### Install on Windows
 
@@ -223,8 +267,12 @@ if ($oldPath.Split(';') -inotcontains 'C:\minikube'){ `
 ``` 
 ## Start the cluster
 
-`minikube start`
+```
+minikube start
+```
 
 ## Start and expose the Dashboard
 
-`minikube dashboard`
+```
+minikube dashboard
+```
