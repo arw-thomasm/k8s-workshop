@@ -1,5 +1,9 @@
 # Azure
 
+## Install the Azure CLI
+
+https://learn.microsoft.com/en-us/cli/azure/install-azure-cli
+
 ## Create infrastructure in Azure
 
 ### Login into Azure
@@ -226,6 +230,13 @@ kube-system    kube-apiserver-tm-kube-master            1/1     Running   1     
 ### Allow access to the K8s API from the Internet (be careful!!!)
 ```
 az vm open-port -g RG-TM-KubeCluster -n tm-kube-master --port 6443
+```
+
+### Allow access to the nodePort range to access services from outside
+
+```
+az vm open-port -g RG-TM-KubeCluster -n tm-kube-worker-1 --port 30000-32767
+az vm open-port -g RG-TM-KubeCluster -n tm-kube-worker-2 --port 30000-32767
 ```
 
 # Minikube on Docker Desktop
