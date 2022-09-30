@@ -228,11 +228,24 @@ kube-system    kube-apiserver-tm-kube-master            1/1     Running   1     
 ```
 
 ### Allow access to the K8s API from the Internet (be careful!!!)
+
+```
+az vm open-port -g <ResourceGroupName> -n <vm-name-master> --port 6443
+```
+
+Example:
+
 ```
 az vm open-port -g RG-TM-KubeCluster -n tm-kube-master --port 6443
 ```
 
 ### Allow access to the nodePort range to access services from outside
+
+```
+az vm open-port -g <ResourceGroupName> -n <vm-name-worker-{n}> --port 30000-32767
+```
+
+Example:
 
 ```
 az vm open-port -g RG-TM-KubeCluster -n tm-kube-worker-1 --port 30000-32767
