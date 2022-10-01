@@ -1,0 +1,7 @@
+openssl req -new -key thomas.key -out thomas.csr -subj "/CN=thomas/O=Developers"
+openssl x509 -req -in thomas.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out thomas.crt -days 3540
+openssl x509 -req -in thomas.csr -CA ~/.minikube/ca.crt -CAkey ~/.minikube/ca.key -CAcreateserial -out thomas.crt -days 3540
+
+CA_CRT_BASE64=$(base64 ~/.minikube/ca.crt)
+CLIENT_CRT_BASE64=$(base64 thomas.crt)
+CLIENT_KEY_BASE64=$(base64 thomas.key)

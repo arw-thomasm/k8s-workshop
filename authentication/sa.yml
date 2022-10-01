@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: demo-admin
+  namespace: demo
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student1-admin
+  namespace: student1
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student2-admin
+  namespace: student2
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student3-admin
+  namespace: student3
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student4-admin
+  namespace: student4
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student5-admin
+  namespace: student5
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student6-admin
+  namespace: student6
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student7-admin
+  namespace: student7
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student8-admin
+  namespace: student8
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student9-admin
+  namespace: student9
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student10-admin
+  namespace: student10
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student11-admin
+  namespace: student11
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student12-admin
+  namespace: student12
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student13-admin
+  namespace: student13
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student14-admin
+  namespace: student14
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student15-admin
+  namespace: student15
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student16-admin
+  namespace: student16
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student17-admin
+  namespace: student17
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student18-admin
+  namespace: student18
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: student19-admin
+  namespace: student19

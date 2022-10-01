@@ -1,0 +1,99 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student1
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student2
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student3
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student4
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student5
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student6
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student7
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student8
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student9
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student10
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student11
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student12
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student13
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student14
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student15
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student16
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student17
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student18
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: student19
