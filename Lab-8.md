@@ -1,12 +1,13 @@
-# Deploying an NGINX ingress controller
+# Deploying an NGINX ingress controller (NGINX Ingress Controller maintained by the Kubernetes project)
 
 ## Prerequisites
 
 - Running Kubernetes (ie. Minikube)
 - You need administrative rights on the machine running Minikube. You must be able to bind to priviledged ports on the host
-- Enable Minikube NGINX Ingress Controller
+- Enable Minikube NGINX Ingress Controller, tunnel ingress controller ports to your local machine (leave the terminal open)
 ```
 minikube addons enable ingress
+minikube tunnel
 ```
 - Create a namespace for this lab
 ```
@@ -16,42 +17,36 @@ kubectl create namespace lab-8
 ## Lab
 
 
-git clone https://github.com/nginxinc/kubernetes-ingress.git --branch v2.3.1
+1. Deploy the coffee and tea deployment
+```
+kubectl -n lab-8 apply -f coffee-deployment.yml
+kubectl -n lab-8 apply -f tea-deployment.yml
+```
 
-cd kubernetes-ingress/deployments
+2. Verify if the pods are up and running
+```
+kubectl -n lab-8 get pods
+```
 
-kubectl apply -f common/ns-and-sa.yaml
-kubectl apply -f rbac/rbac.yaml
-kubectl apply -f common/default-server-secret.yaml
-kubectl apply -f common/nginx-config.yaml
-kubectl apply -f common/ingress-class.yaml
+- How many Pods are running in the lab-8 namespace?
 
-kubectl apply -f common/crds/k8s.nginx.org_virtualservers.yaml
-kubectl apply -f common/crds/k8s.nginx.org_virtualserverroutes.yaml
-kubectl apply -f common/crds/k8s.nginx.org_transportservers.yaml
-kubectl apply -f common/crds/k8s.nginx.org_policies.yaml
+3. Deploy the Ingress rules
+```
+kubectl -n lab-8 apply -f ingress.yml
+```
 
-kubectl apply -f deployment/nginx-ingress.yaml
+4. Open a browser to check if the ingress ressource works. You should be able reach the two services via the following URLs:
 
-kubectl create -f service/nodeport.yaml
+- http://localhost/coffee
+- http://localhost/tea
 
+- What is the server name of the Pod you are connected to?
+- Does the server name change, when you refresh the page?
 
+5. (Optional) Cleanup
 
+Cleanup the namespace including all ressources inside that namespace
 
-
-kubectl create secret docker-registry regcred --docker-server=private-registry.nginx.com --docker-username=<JWT Token> --docker-password=none -n nginx-ingress
-
-kubectl get secret regcred --output=yaml -n nginx-ingress
-
-
-
-
-
-
-
-
-
-kubectl create secret docker-registry regcred --docker-server=private-registry.nginx.com --docker-username=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InRyaWFsIn0.eyJpc3MiOiJuZ2lueCBpc3N1ZXIiLCJpYXQiOjE2NjQ4MTM4ODIsImp0aSI6Ijg5NDUiLCJzdWIiOiJUMDAwMTI1ODc2IiwiZXhwIjoxNjY3NDA1ODgyfQ.lBULpzPFyyXzmlpgILRClMbLGr8qM7oO51CelHcBvTeV_NC70vAqiIauPvHwBU46eqS3vy_kzdTwbz6caAn4hWKy2qk5aTuoIKWxJifeFntCUaWYJoARwwTSLZ5iI1kUG5SpUB7n-Dj2Nylro1L8kqsgV8-UDXhcxdLV14qBhPsuZmxPEx-TlvELmqIlJCWcVW0KF2yZzYccHtC_QiLMuAAB9nu3XoGJDCYj5Jglw5FWPrjIoGuPPXOctydNoq7Xh2_y0mh15Q--wfiGKpaHb9IXnsQyuY3L4vuUM8YUY39KJ1JngN5Q9oDHNjlXjBv06Ig_Uu9xYaAAETzxE63cg4Iqx7Z4iW-9CSk2MvKhLFi70KH2JGX6lXaahouQYIt_GN56whV2gGnfoIL30FwtBH49UU70tzgvfWDxHgF9AHLIAmXnls64Z438kROKaX6FRDBxqOz8YEiVjI7QPnRDF-ok9srHCPvrRtId-iVqD7-aO0Z_solF0ox2UG4uoOEq --docker-password=none -n nginx-ingress
-
-
-
+```
+kubectl delete namespaces lab-8
+```
