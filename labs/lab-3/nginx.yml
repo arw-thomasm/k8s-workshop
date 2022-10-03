@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  nginx-on-port-8080.conf: |-
+    server {
+        listen       8080;
+        location / {
+            return 200 'My server is so cool, it runs now on port 8080!';
+            add_header Content-Type text/plain;
+        }
+    }
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 8080
+    volumeMounts:
+      - name: nginx-config-volume
+        mountPath: /etc/nginx/conf.d
+  volumes:
+    - name: nginx-config-volume
+      configMap:
+        name: nginx-config
