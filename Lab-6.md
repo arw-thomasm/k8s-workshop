@@ -156,7 +156,7 @@ kubectl -n lab-6 get persistentvolumeclaims
 
 21. Check the status of the PVs
 ```
-kubectl -n lab-6 get persistentvolumeclaims
+kubectl -n lab-6 get persistentvolume
 ```
 - What is the status of the persistent volumes?
 
